@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Click Bible Challenge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+      <nav>
+        <div class="logo">
+        </div>
+    
+        <div id="auth-buttons">
+          <button onclick="signInWithGoogle()">Se connecter avec Google</button>
+        </div>
+    
+        <div id="user-info" style="display: none; align-items: center; gap: 10px;">
+          <div id="admin-link" style="display: none;">
+            <a href="index.html">Formulaire</a>
+          </div>
+          <img id="user-photo" width="32" height="32" style="border-radius: 50%;" />
+          <span id="user-name" style="font-weight: bold;"></span>
+          <button onclick="signOut()">Se déconnecter</button>
+        </div>
+      </nav>
+    </header>
+
+  <h1>📊 Admin - Liste des lectures</h1>
+  <div id="admin-data"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+
+  <script>
+    const allowedAdmins = ["clickbiblechallenge@gmail.com"];
+
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user || !allowedAdmins.includes(user.email)) {
+        alert("⛔ Accès refusé.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const db = firebase.firestore();
+      const snapshot = await db.collection("lectures").orderBy("date", "desc").get();
+
+      let html = "<table border='1' cellpadding='8' style='width: 100%; border-collapse: collapse'><tr><th>Date</th><th>Lecture</th><th>Réseaux</th><th>Lecture faite</th><th>Avec</th><th>Note</th><th>User</th></tr>";
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        html += `
+          <tr>
+            <td>${d.date}</td>
+            <td>${d.passage}</td>
+            <td>${d.social} ${d.socialUnit}</td>
+            <td>${d.done}</td>
+            <td>${d.with}</td>
+            <td>${d.note}</td>
+            <td>${d.userId}</td>
+          </tr>`;
+      });
+      html += "</table>";
+      document.getElementById("admin-data").innerHTML = html;
+    });
+  </script>
+</body>
+</html>

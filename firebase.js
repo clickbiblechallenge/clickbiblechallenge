@@ -42,4 +42,10 @@ const firebaseConfig = {
   // Affiche l'utilisateur si déjà connecté
   auth.onAuthStateChanged(user => {
     if (user) showUser(user);
-  });
+  if (user && user.email === "clickbiblechallenge@gmail.com") {
+    document.getElementById("admin-link").style.display = "block";
+  }
+  else {
+    document.getElementById("admin-link").style.display = "none";
+  }
+});
