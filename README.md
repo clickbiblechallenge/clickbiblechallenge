@@ -1,2 +1,1 @@
-# click-bible-challenge
 # clickbiblechallenge
