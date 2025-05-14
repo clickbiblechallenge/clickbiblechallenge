@@ -114,6 +114,16 @@ function getLectureOfTheDay() {
   }
 }
 
+
+
 if (JSON.parse(localStorage.getItem("user"))) {
   document.getElementById("verset").textContent = "Verset du jour : " + getLectureOfTheDay();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if(user.email == "clickbiblechallenge@gmail.com") {
+    document.getElementById("admin-link").style.display = "block";
+  } else {
+    document.getElementById("admin-link").style.display = "none";
+  }
 }
