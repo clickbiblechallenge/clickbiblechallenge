@@ -16,8 +16,8 @@ const firebaseConfig = {
     auth.signInWithPopup(provider)
       .then(result => {
         const user = result.user;
-        // console.log("Connecté :", user);
         showUser(user);
+        window.location.reload();
       })
       .catch(error => {
         console.error("Erreur de connexion :", error);
@@ -28,7 +28,8 @@ const firebaseConfig = {
     auth.signOut().then(() => {
       document.getElementById("user-info").style.display = "none";
       document.getElementById("auth-buttons").style.display = "block";
-      console.log("Déconnecté");
+      localStorage.removeItem("user");
+      window.location.reload();
     });
   }
 
@@ -37,15 +38,10 @@ const firebaseConfig = {
     document.getElementById("user-info").style.display = "flex";
     document.getElementById("user-name").textContent = user.displayName;
     document.getElementById("user-photo").src = user.photoURL;
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   // Affiche l'utilisateur si déjà connecté
   auth.onAuthStateChanged(user => {
     if (user) showUser(user);
-  if (user && user.email === "clickbiblechallenge@gmail.com") {
-    document.getElementById("admin-link").style.display = "block";
-  }
-  else {
-    document.getElementById("admin-link").style.display = "none";
-  }
-});
+  });
