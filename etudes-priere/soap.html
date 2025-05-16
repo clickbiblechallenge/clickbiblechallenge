@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> 🧠 Méthode SOAP - Click Bible Challenge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="btn-return" onclick="window.location.href='index.html'">← Retour à l'accueil</button>
+
+    <h1>Méthode SOAP</h1>
+    <form id="soapForm">
+      <label for="scripture">S - Scripture (Verset)</label>
+      <textarea id="scripture" rows="2" required></textarea>
+
+      <label for="observation">O - Observation</label>
+      <textarea id="observation" rows="3" required></textarea>
+
+      <label for="application">A - Application</label>
+      <textarea id="application" rows="3" required></textarea>
+
+      <label for="prayer">P - Prayer (Prière)</label>
+      <textarea id="prayer" rows="3" required></textarea>
+
+      <div class="button-group">
+        <button type="submit">💾 Sauvegarder</button>
+        <button type="button" id="exportPdfBtn">📄 Exporter en PDF</button>
+      </div>
+      <div class="success" id="message"></div>
+    </form>
+  </div>
+
+        <script
+        src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+      <script
+        src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+      <script
+        src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+
+      <script src="firebase.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+  const form = document.getElementById('soapForm');
+  const message = document.getElementById('message');
+  const exportPdfBtn = document.getElementById('exportPdfBtn');
+
+  let currentUser = null;
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      currentUser = user;
+    } else {
+      currentUser = null;
+      alert("Connecte-toi pour enregistrer tes notes SOAP !");
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser) {
+      alert("Tu dois être connecté pour sauvegarder.");
+      return;
+    }
+
+    const data = {
+      userId: currentUser.uid,
+      scripture: form.scripture.value,
+      observation: form.observation.value,
+      application: form.application.value,
+      prayer: form.prayer.value,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+      await db.collection("soapNotes").add(data);
+      message.textContent = '✅ Notes sauvegardées dans Firebase !';
+      form.reset();
+    } catch (error) {
+      console.error("Erreur Firebase :", error);
+      alert("Erreur lors de la sauvegarde.");
+    }
+  });
+
+  exportPdfBtn.addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const data = {
+      scripture: form.scripture.value,
+      observation: form.observation.value,
+      application: form.application.value,
+      prayer: form.prayer.value
+    };
+
+    let y = 10;
+    doc.setFontSize(16);
+    doc.text('Méthode SOAP', 105, y, null, null, 'center');
+    y += 15;
+    doc.setFontSize(12);
+    doc.text(`S - Scripture:\n${data.scripture}`, 10, y);
+    y += 30;
+    doc.text(`O - Observation:\n${data.observation}`, 10, y);
+    y += 30;
+    doc.text(`A - Application:\n${data.application}`, 10, y);
+    y += 30;
+    doc.text(`P - Prayer:\n${data.prayer}`, 10, y);
+
+    doc.save('SOAP_notes.pdf');
+  });
+  </script>
+</body>
+</html>
+
+

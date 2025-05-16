@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livres - Click Bible Challenge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="btn-return" onclick="window.location.href='index.html'">← Retour à l'accueil</button>
+
+    <h1>📚 Livres de la Bible</h1>
+    <p class="subtitle">Comprendre les différents contextes de la Bible</p>
+    <input type="text" id="searchInput" placeholder="Rechercher un livre..." />
+
+    <ul id="booksList" class="books-list">
+     <li><a href="genese.html">Genèse</a></li>
+      <li><a href="exode.html">Exode</a></li>
+      <li><a href="levitique.html">Lévitique</a></li>
+      <li><a href="nombres.html">Nombres</a></li>
+      <li><a href="deuteronome.html">Deutéronome</a></li>
+      <li><a href="josue.html">Josué</a></li>
+      <li><a href="juges.html">Juges</a></li>
+      <li><a href="ruth.html">Ruth</a></li>
+      <li><a href="1samuel.html">1 Samuel</a></li>
+      <li><a href="2samuel.html">2 Samuel </a></li>
+      <li><a href="1rois.html">1 Rois </a></li>
+      <li><a href="2rois.html">2 Rois </a></li>
+      <li><a href="1chronique.html">1 Chronique </a></li>
+      <li><a href="2chronique.html">2 Chronique</a></li>
+      <li><a href="esdras.html">Esdras </a></li>
+      <li><a href="nehemie.html">Néhémie </a></li>
+      <li><a href="esther.html">Esther</a></li>
+      <li><a href="job.html">Job</a></li>
+      <li><a href="psaumes.html">Psaumes</a></li>
+      <li><a href="ecclesiaste.html">Écclésiaste</a></li>
+      <li><a href="cantiquedescantiques.html">Cantique des cantiques </a></li>
+      <li><a href="esaie.html">Esaïe</a></li>
+      <li><a href="jeremie.html">Jérémie</a></li>
+      <li><a href="lamentations.html">Lamentations</a></li>
+      <li><a href="ezechiel.html">Ézéchiel</a></li>
+      <li><a href="daniel.html">Daniel</a></li>
+      <li><a href="osee.html">Osée</a></li>
+      <li><a href="joel.html">Joël</a></li>
+      <li><a href="amos.html">Amos</a></li>
+      <li><a href="abdias.html">Abdias</a></li>
+      <li><a href="jonas.html">Jonas</a></li>
+      <li><a href="michee.html">Michée</a></li>
+      <li><a href="nahum.html">Nahum</a></li>
+      <li><a href="habacuc.html">Habacuc</a></li>
+      <li><a href="sophonie.html">Sophonie</a></li>
+      <li><a href="aggee.html">Aggée</a></li>
+      <li><a href="zacharie.html">Zacharie</a></li>
+      <li><a href="malachie.html">Malachie </a></li>
+
+    
+    </ul>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const booksList = document.getElementById('booksList');
+    const books = booksList.getElementsByTagName('li');
+
+    searchInput.addEventListener('keyup', function () {
+      const filter = this.value.toLowerCase();
+      for (let i = 0; i < books.length; i++) {
+        const bookName = books[i].textContent.toLowerCase();
+        if (bookName.indexOf(filter) > -1) {
+          books[i].style.display = '';
+        } else {
+          books[i].style.display = 'none';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+

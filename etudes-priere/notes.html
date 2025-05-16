@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mes notes</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #fceefc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #8e44ad;
+    }
+    .note-item {
+      background: #f9f0ff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+    .note-item:hover {
+      background: #e4d3f4;
+    }
+    .note-date {
+      font-weight: 700;
+      color: #732d91;
+    }
+    .note-excerpt {
+      margin-top: 5px;
+      font-style: italic;
+      color: #555;
+    }
+    .delete-btn {
+      top: 15px;
+      right: 15px;
+      background: #e74c3c;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+    #detailView {
+      margin-top: 20px;
+      background: #f0e5ff;
+      padding: 15px;
+      border-radius: 12px;
+      display: none;
+    }
+    #detailView h2 {
+      margin-top: 0;
+      color: #6c3483;
+    }
+    #backBtn {
+      margin-top: 30px;
+      background: #6c3483;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1> 📝 Mes notes</h1>
+      <div id="notesList">
+        <!-- Les notes sauvegardées apparaîtront ici -->
+      </div>
+
+      <div id="detailView">
+        <h2>Détail de la note</h2>
+        <p><strong>Verset :</strong> <span id="detailScripture"></span></p>
+        <p><strong>Observation :</strong> <span
+            id="detailObservation"></span></p>
+        <p><strong>Application :</strong> <span
+            id="detailApplication"></span></p>
+        <p><strong>Prière :</strong> <span id="detailPrayer"></span></p>
+        <button id="closeDetailBtn"
+          style="margin-top: 15px; background:#732d91; color:#fff; border:none; padding:8px 15px; border-radius:10px; font-weight:bold; cursor:pointer;">Fermer</button>
+      </div>
+
+      <button id="backBtn">🏠 Retour à l'accueil</button>
+    </div>
+
+    <script
+      src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+
+    <script src="firebase.js"></script>
+
+    <script>
+    const notesList = document.getElementById('notesList');
+    const detailView = document.getElementById('detailView');
+    const detailScripture = document.getElementById('detailScripture');
+    const detailObservation = document.getElementById('detailObservation');
+    const detailApplication = document.getElementById('detailApplication');
+    const detailPrayer = document.getElementById('detailPrayer');
+    const closeDetailBtn = document.getElementById('closeDetailBtn');
+    const backBtn = document.getElementById('backBtn');
+
+    // Fonction pour afficher la liste des notes depuis Firestore
+    function loadNotes() {
+      notesList.innerHTML = '';
+      detailView.style.display = 'none';
+
+      firebase.auth().onAuthStateChanged(async (user) => {
+        if (!user) {
+          notesList.innerHTML = '<p>Connecte-toi pour voir tes notes.</p>';
+          return;
+        }
+
+        try {
+          const snapshot = await db.collection("soapNotes")
+            .where("userId", "==", user.uid)
+            .orderBy("createdAt", "desc")
+            .get();
+
+          if (snapshot.empty) {
+            notesList.innerHTML = '<p>Aucune note sauvegardée pour le moment.</p>';
+            return;
+          }
+
+          snapshot.forEach(doc => {
+            const note = doc.data();
+            const noteId = doc.id;
+
+            const noteDiv = document.createElement('div');
+            noteDiv.className = 'note-item';
+
+            const dateEl = document.createElement('div');
+            dateEl.className = 'note-date';
+            const date = note.createdAt?.toDate?.().toLocaleDateString() || 'Date inconnue';
+            dateEl.textContent = date;
+
+            const excerptEl = document.createElement('div');
+            excerptEl.className = 'note-excerpt';
+            excerptEl.textContent = note.observation?.length > 40 ? note.observation.substring(0, 40) + '...' : note.observation;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Supprimer';
+            deleteBtn.addEventListener('click', async (e) => {
+              e.stopPropagation();
+              if (confirm('Voulez-vous vraiment supprimer cette note ?')) {
+                await db.collection("soapNotes").doc(noteId).delete();
+                loadNotes();
+              }
+            });
+
+            noteDiv.addEventListener('click', () => {
+              detailScripture.textContent = note.scripture || '(vide)';
+              detailObservation.textContent = note.observation || '(vide)';
+              detailApplication.textContent = note.application || '(vide)';
+              detailPrayer.textContent = note.prayer || '(vide)';
+              detailView.style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            noteDiv.appendChild(dateEl);
+            noteDiv.appendChild(excerptEl);
+            notesList.appendChild(noteDiv);
+            noteDiv.appendChild(deleteBtn);
+          });
+        } catch (error) {
+          console.error("Erreur de chargement des notes :", error);
+          notesList.innerHTML = '<p>Erreur lors du chargement des notes.</p>';
+        }
+      });
+    }
+
+    closeDetailBtn.addEventListener('click', () => {
+      detailView.style.display = 'none';
+    });
+
+    backBtn.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    loadNotes();
+  </script>
+  </body>
+</html>

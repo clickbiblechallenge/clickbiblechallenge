@@ -1,0 +1,364 @@
+body {
+  font-family: "Nunito", sans-serif;
+  background: #fceefc;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #8e44ad;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #8e44ad;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #732d91;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.entries {
+  margin-top: 30px;
+}
+
+.entry {
+  background: #f3e8fb;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.entry-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.entry-buttons button {
+  font-size: 12px;
+  padding: 5px 10px;
+  background: #8e44ad;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  margin-bottom: 40px;
+  gap: 10px;
+}
+
+nav .logo {
+  font-size: 18px;
+}
+
+nav button {
+  background: #8e44ad;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 0;
+}
+
+nav button:hover {
+  background: #732d91;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav .logo {
+    font-size: 16px;
+  }
+
+  .entry-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  nav button {
+    width: 100%;
+  }
+}
+
+#user-info {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+#etude-priere {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#etude-priere a {
+  display: block;
+  text-decoration: none;
+  color: #8e44ad;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.intro {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 40px;
+  font-size: 1.2rem;
+  color: #6b3083;
+}
+
+/* Menu carrés */
+.menu-cards {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.menu-card {
+  background: #8e44ad;
+  color: white;
+  text-decoration: none;
+  width: 150px;    /* encore plus petit */
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  font-size: 1.1rem;  /* réduit aussi la taille du texte */
+  font-weight: 700;
+  box-shadow: 0 8px 15px rgba(142,68,173,0.4);
+  transition: background 0.3s ease;
+}
+
+.menu-card h2 {
+  margin: 0;
+  font-size: 1rem;  /* réduire la taille ici */
+  font-weight: 700;
+}
+
+/* Bouton retour */
+.btn-return {
+  background: #8e44ad;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.3s ease;
+}
+
+.btn-return:hover {
+  background: #732d91;
+}
+
+/* Formulaire SOAP */
+form label {
+  font-weight: 700;
+  margin-top: 15px;
+  display: block;
+}
+
+form textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 6px;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.button-group {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #8e44ad;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button-group button:hover {
+  background: #732d91;
+}
+
+/* Liste de livres */
+.books-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.books-list li {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: default;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #6b3083;
+}
+
+/* Input recherche */
+#searchInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.book-list {
+  list-style: none;
+  padding: 0;
+  font-size: 18px;
+}
+
+.book-list li {
+  margin: 10px 0;
+}
+
+.book-list a {
+  text-decoration: none;
+  color: #8e44ad;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.book-list a:hover {
+  color: #5e3370;
+}
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Cacher boutons et liens lors de l'impression */
+@media print {
+  .btn-return, .menu-card, form button, #exportPdfBtn {
+    display: none !important;
+  }
+}
+
+
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav .logo {
+    font-size: 16px;
+  }
+
+  .entry-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  nav button {
+    width: 100%;
+  }
+}
