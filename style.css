@@ -146,3 +146,33 @@ nav button:hover {
     width: 100%;
   }
 }
+
+#user-info {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+#etude-priere {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#etude-priere a {
+  display: block;
+  text-decoration: none;
+  color: #8e44ad;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
